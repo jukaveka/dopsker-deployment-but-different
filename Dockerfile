@@ -6,9 +6,9 @@ COPY . .
 
 RUN npm install 
 
-ARG WEATHER_API_KEY
-
-ENV VITE_WEATHER_API_KEY=$WEATHER_API_KEY
+RUN --mount=type=secret,id=WEATHER_API_KEY \
+    VITE_WEATHER_API_KEY=$(cat /run/secrets/WEATHER_API_KEY) \
+    npm run build
 
 RUN npm run build && npm install -g serve
 
